@@ -51,16 +51,17 @@
     }
 
     @media print {
-      body * {
+      .esconder-print {
         display: none;
       }
-      .printable, .printable * {
-        display: block;
+      
+      li:not(:has(input:checked)) {
+        display: none;
       }
-      .printable {
-        position: absolute;
-        top: 0;
-        left: 0;
+
+      input[type="checkbox"] {
+        margin-right: 0.5rem;
+        transform: scale(1.2);
       }
       h2 {
         font-size: 13px;
@@ -76,17 +77,30 @@
 </head>
 <body>
 
-  <h1>Checklist de Compras</h1>
-  <button onclick="printSelected()">🖨️ Imprimir selecionados</button>
+  <div class="esconder-print">
+    <h1>Checklist de Compras</h1>
+    <button onclick="printSelected()">🖨️ Imprimir selecionados</button>
     <button type="button" onclick="selecionarTodos(true)">✅ Selecionar tudo</button>
     <button type="button" onclick="selecionarTodos(false)">❌ Desmarcar tudo</button>
+    <button type="button" onclick="copiarSelecionados()">📋 Copiar selecionados</button>
+  </div>
+
   <form id="checklist">
   </form>
 
   <div id="print-section" class="printable" style="display:none"></div>
 
   <script>
-    const data = {
+    function ordenarDataAlfabeticamente(obj) {
+      const ordenado = {};
+      for (const [categoria, itens] of Object.entries(obj)) {
+        ordenado[categoria] = [...itens].sort((a, b) => a.localeCompare(b, 'pt-BR', { sensitivity: 'base' }));
+      }
+      return ordenado;
+    }
+
+
+    let data = {
       "🥦 Hortifruti": [
         "Abobrinha", "Alface", "Alho", "Banana", "Batata doce", "Beterraba",
         "Cabotia", "Cebola", "Cenoura", "Laranja", "Legumes picados", "Limão",
@@ -98,7 +112,7 @@
         "Peixe", "Sardinha em lata", "Sobrecoxa temperada"
       ],
       "🧀 Frios": [
-        "Iogurte em potes", "Mussarela", "Peito de peru", "Presunto", "Requeijão light"
+        "Iogurte em potes", "Mussarela", "Peito de peru", "Presunto", "Requeijão light", "Cheddar"
       ],
       "🥖 Mercearia": [
         "Açúcar", "Arroz", "Coca", "Farinha de trigo", "Feijão", "Filtro café", "Granola",
@@ -113,6 +127,9 @@
         "Shampoo", "Veja"
       ]
     };
+
+    data = ordenarDataAlfabeticamente(data);
+
 
     const checklistDiv = document.getElementById('checklist');
 
@@ -136,39 +153,7 @@
     }
 
     function printSelected() {
-      const printSection = document.getElementById('print-section');
-      printSection.innerHTML = ''; // limpa
-
-      const selectedItems = document.querySelectorAll('#checklist input[type=checkbox]:checked');
-      if (selectedItems.length === 0) {
-        alert("Nenhum item selecionado!");
-        return;
-      }
-
-      const grouped = {};
-      selectedItems.forEach(input => {
-        const category = input.closest('ul').previousElementSibling.textContent;
-        if (!grouped[category]) grouped[category] = [];
-        grouped[category].push(input.value);
-      });
-
-      for (const [category, items] of Object.entries(grouped)) {
-        const h2 = document.createElement('h2');
-        h2.textContent = category;
-        printSection.appendChild(h2);
-
-        const ul = document.createElement('ul');
-        items.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          ul.appendChild(li);
-        });
-        printSection.appendChild(ul);
-      }
-
-      setTimeout(() => {
-        window.print();
-      }, 200)
+      window.print();
     }
 
     checklistDiv.addEventListener('change', salvarEstado);
@@ -194,6 +179,33 @@
         });
       }
       salvarEstado();
+    }
+
+    function copiarSelecionados() {
+      const selecionados = document.querySelectorAll('#checklist input[type=checkbox]:checked');
+      if (selecionados.length === 0) {
+        alert("Nenhum item selecionado para copiar.");
+        return;
+      }
+
+      let texto = "";
+      const agrupado = {};
+
+      selecionados.forEach(input => {
+        const categoria = input.closest('ul').previousElementSibling.textContent;
+        if (!agrupado[categoria]) agrupado[categoria] = [];
+        agrupado[categoria].push(input.value);
+      });
+
+      for (const [categoria, itens] of Object.entries(agrupado)) {
+        texto += `${categoria}:\n`;
+        texto += itens.map(item => `- ${item}`).join('\n');
+        texto += '\n\n';
+      }
+
+      navigator.clipboard.writeText(texto)
+        .then(() => alert("Itens copiados para a área de transferência!"))
+        .catch(() => alert("Erro ao copiar. Seu navegador não suporta essa funcionalidade."));
     }
   </script>
 
