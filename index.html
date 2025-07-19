@@ -41,6 +41,9 @@
     }
 
     @media screen and (max-width: 1000px) {
+      body {
+        padding: 1rem;
+      }
       li {
         font-size: 1.5rem;
       }
@@ -51,18 +54,26 @@
     }
 
     @media print {
+      body {
+        padding: 1rem;
+      }
       .esconder-print {
         display: none;
       }
-      
+
+
+      h2:not(:has(+ ul input:checked)) {
+        display: none;
+      }
+
       li:not(:has(input:checked)) {
         display: none;
       }
 
       input[type="checkbox"] {
-        margin-right: 0.5rem;
-        transform: scale(1.2);
+        display: none;
       }
+
       h2 {
         font-size: 13px;
         padding: 0;
@@ -207,6 +218,7 @@
         .then(() => alert("Itens copiados para a área de transferência!"))
         .catch(() => alert("Erro ao copiar. Seu navegador não suporta essa funcionalidade."));
     }
+
   </script>
 
 </body>
