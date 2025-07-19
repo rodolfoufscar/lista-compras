@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>Checklist de Compras</title>
   <style>
     body {
@@ -23,12 +23,13 @@
       list-style: none;
       padding-left: 0;
     }
-    li {
-      margin: 1rem 0;
-    }
+
     label {
+      padding: 1rem 0;
       cursor: pointer;
+      display: block;
     }
+
     input[type="checkbox"] {
       margin-right: 0.5rem;
       transform: scale(1.2);
@@ -46,6 +47,9 @@
       }
       li {
         font-size: 1.5rem;
+      }
+      label {
+        padding: 0.8rem 0;
       }
       input[type="checkbox"] {
         margin-right: 1rem;
@@ -81,7 +85,9 @@
       }
       li {
         font-size: 10px;
-        margin: 0.2rem 0;
+      }
+      label {
+        padding: 0.2rem 0;
       }
     }
   </style>
