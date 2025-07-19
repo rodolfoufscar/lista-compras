@@ -8,6 +8,7 @@
       font-family: Arial, sans-serif;
       padding: 2rem;
       background-color: #f4f4f4;
+
     }
     h1 {
       margin-bottom: 1rem;
@@ -22,7 +23,7 @@
       padding-left: 0;
     }
     li {
-      margin: 0.3rem 0;
+      margin: 1rem 0;
     }
     label {
       cursor: pointer;
@@ -36,6 +37,15 @@
       padding: 0.5rem 1rem;
       font-size: 1rem;
       cursor: pointer;
+    }
+
+    @media screen and (max-width: 1000px) {
+      li {
+        font-size: 1.5rem;
+      }
+      input[type="checkbox"] {
+        transform: scale(2);
+      }
     }
 
     @media print {
@@ -57,6 +67,7 @@
       }
       li {
         font-size: 10px;
+        margin: 0.2rem 0;
       }
     }
   </style>
@@ -154,8 +165,12 @@
       }
 
       printSection.style.display = 'block';
-      window.print();
-      printSection.style.display = 'none';
+
+      // ⚠️ Garante que o conteúdo foi renderizado antes da impressão
+      setTimeout(() => {
+        window.print();
+        printSection.style.display = 'none';
+      }, 100); // Ajuste esse delay se necessário (50–200ms geralmente é suficiente)
     }
 
     checklistDiv.addEventListener('change', salvarEstado);
