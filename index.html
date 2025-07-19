@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checklist de Compras</title>
   <style>
     body {
@@ -44,6 +45,7 @@
         font-size: 1.5rem;
       }
       input[type="checkbox"] {
+        margin-right: 1rem;
         transform: scale(2);
       }
     }
@@ -169,8 +171,11 @@
       // ⚠️ Garante que o conteúdo foi renderizado antes da impressão
       setTimeout(() => {
         window.print();
-        printSection.style.display = 'none';
-      }, 100); // Ajuste esse delay se necessário (50–200ms geralmente é suficiente)
+
+        setTimeout(() => {
+          printSection.style.display = 'none';
+        }, 200); // Ajuste esse delay se necessário (50–200ms geralmente é suficiente)
+      }, 200); // Ajuste esse delay se necessário (50–200ms geralmente é suficiente)
     }
 
     checklistDiv.addEventListener('change', salvarEstado);
