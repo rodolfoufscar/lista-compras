@@ -166,16 +166,9 @@
         printSection.appendChild(ul);
       }
 
-      printSection.style.display = 'block';
-
-      // ⚠️ Garante que o conteúdo foi renderizado antes da impressão
       setTimeout(() => {
         window.print();
-
-        setTimeout(() => {
-          printSection.style.display = 'none';
-        }, 200); // Ajuste esse delay se necessário (50–200ms geralmente é suficiente)
-      }, 200); // Ajuste esse delay se necessário (50–200ms geralmente é suficiente)
+      }, 200)
     }
 
     checklistDiv.addEventListener('change', salvarEstado);
