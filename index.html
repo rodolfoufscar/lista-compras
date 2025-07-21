@@ -7,16 +7,15 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 2rem;
+      padding: 12px;
       background-color: #f4f4f4;
-
     }
     h1 {
-      margin-bottom: 1rem;
+      margin-bottom: 20px;
     }
     h2 {
       background-color: #ddd;
-      padding: 0.5rem;
+      padding: 8px;
       border-radius: 5px;
     }
     ul {
@@ -24,48 +23,46 @@
       padding-left: 0;
     }
 
+    li {
+      font-size: 22px;
+    }
+
     label {
-      padding: 1rem 0;
+        padding: 13px 0;
       cursor: pointer;
       display: block;
     }
 
     input[type="checkbox"] {
-      margin-right: 0.5rem;
-      transform: scale(1.2);
+      margin-right: 18px;
+      transform: scale(2);
     }
+
+    .buttons {
+      display: flex;
+        gap: 20px;
+      flex-wrap: wrap;
+    }
+
     button {
-      margin: 1rem 0;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
+      padding: 10px 15px;
+      font-size: 16px;
       cursor: pointer;
     }
 
-    @media screen and (max-width: 1000px) {
-      body {
-        padding: 1rem;
-      }
-      li {
-        font-size: 1.5rem;
-      }
-      label {
-        padding: 0.8rem 0;
-      }
-      input[type="checkbox"] {
-        margin-right: 1rem;
-        transform: scale(2);
-      }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
     }
-
+ 
     @media print {
       body {
-        padding: 1rem;
+        padding: 0;
         background-color: none;
       }
       .esconder-print {
         display: none;
       }
-
 
       h2:not(:has(+ ul input:checked)) {
         display: none;
@@ -86,28 +83,33 @@
         background-color: none;
       }
       li {
-        font-size: 11px;
+        font-size: 10px;
       }
       label {
-        padding: 0.1rem 0;
+        padding: 1px 0;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="esconder-print">
-    <h1>Checklist de Compras</h1>
-    <button onclick="printSelected()">🖨️ Imprimir selecionados</button>
-    <button type="button" onclick="selecionarTodos(true)">✅ Selecionar tudo</button>
-    <button type="button" onclick="selecionarTodos(false)">❌ Desmarcar tudo</button>
-    <button type="button" onclick="copiarSelecionados()">📋 Copiar selecionados</button>
+  <div class="container">
+    <div class="esconder-print">
+      <h1>Checklist de Compras</h1>
+      <div class="buttons">
+        <button onclick="printSelected()">🖨️ Imprimir selecionados</button>
+        <button type="button" onclick="selecionarTodos(true)">✅ Selecionar tudo</button>
+        <button type="button" onclick="selecionarTodos(false)">❌ Desmarcar tudo</button>
+        <button type="button" onclick="copiarSelecionados()">📋 Copiar selecionados</button>
+      </div>
+    </div>
+
+    <form id="checklist">
+    </form>
+
+    <div id="print-section" class="printable" style="display:none"></div>
+
   </div>
-
-  <form id="checklist">
-  </form>
-
-  <div id="print-section" class="printable" style="display:none"></div>
 
   <script>
     function ordenarDataAlfabeticamente(obj) {
@@ -127,7 +129,7 @@
       ],
       "🥩 Carnes e Proteínas": [
         "Bife", "Bisteca", "Carne moída", "Frango desfiado", "Frango empanado",
-        "Hambúrguer", "Linguiça", "Peito de frango",
+        "Hambúrguer", "Linguiça", "Ovos de codorna", "Peito de frango",
         "Peixe", "Sardinha em lata", "Sobrecoxa temperada"
       ],
       "🧀 Frios": [
@@ -136,7 +138,7 @@
       "🥖 Mercearia": [
         "Açúcar", "Arroz", "Coca", "Farinha de trigo", "Feijão", "Filtro café", "Granola",
         "Ketchup", "Leite", "Leite 0%", "Maionese", "Massa de macarrão", "Milho em lata",
-        "Molho de tomate", "Nescau", "Ovos", "Ovos de codorna", "Pão integral", "Pó de café", "Sal", "Shoyo",
+        "Molho de tomate", "Nescau", "Ovos", "Pão integral", "Pó de café", "Sal", "Shoyo",
         "Suco", "Tapioca", "Temperos", "Toddynho", "Toddy", "Torrada", "Vinagre agrin"
       ],
       "🧼 Higiene e Limpeza": [
